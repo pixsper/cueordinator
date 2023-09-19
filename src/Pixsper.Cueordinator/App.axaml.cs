@@ -1,9 +1,12 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
+using Microsoft.Extensions.DependencyInjection;
+using Pixsper.Cueordinator.Services;
 using Pixsper.Cueordinator.ViewModels;
 using Pixsper.Cueordinator.Views;
 
@@ -11,7 +14,18 @@ namespace Pixsper.Cueordinator;
 
 public partial class App : Application
 {
+    private readonly IServiceProvider _serviceProvider;
+
     public new static App? Current => (App?)Application.Current;
+
+    public App()
+    {
+        var serviceCollection = new ServiceCollection();
+        serviceCollection.AddHttpClient();
+        serviceCollection.AddSingleton<DisguiseHttpClient>();
+
+        _serviceProvider = serviceCollection.BuildServiceProvider();
+    }
 
     public override void Initialize()
     {
