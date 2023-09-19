@@ -1,0 +1,21 @@
+<Application
+    x:Class="Pixsper.Cueordinator.App"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Pixsper.Cueordinator"
+    xmlns:views="clr-namespace:Pixsper.Cueordinator.Views"
+    RequestedThemeVariant="Dark">
+    <Application.DataTemplates>
+        <local:ViewLocator />
+    </Application.DataTemplates>
+
+    <Application.Styles>
+        <FluentTheme />
+    </Application.Styles>
+
+    <TrayIcon.Icons>
+        <TrayIcons>
+            <views:AppTrayIcon />
+        </TrayIcons>
+    </TrayIcon.Icons>
+</Application>

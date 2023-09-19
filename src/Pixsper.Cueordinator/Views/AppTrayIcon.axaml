@@ -1,0 +1,25 @@
+<TrayIcon
+    x:Class="Pixsper.Cueordinator.Views.AppTrayIcon"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vc="clr-namespace:Pixsper.Cueordinator.ValueConverters"
+    xmlns:vm="clr-namespace:Pixsper.Cueordinator.ViewModels"
+    x:DataType="vm:AppTrayIconViewModel"
+    Icon="/Resources/icon_tray_white.ico"
+    ToolTipText="Cueordinator"
+    mc:Ignorable="d">
+    <TrayIcon.Menu>
+        <NativeMenu>
+            <NativeMenuItem Header="Cueordinator" IsEnabled="False" />
+            <NativeMenuItemSeparator />
+            <NativeMenuItem Command="{Binding SyncNow}" Header="Sync Now" />
+            <NativeMenuItemSeparator />
+            <NativeMenuItem Command="{Binding ToggleIsPaused}" Header="{Binding IsPaused, Converter={x:Static vc:BoolToStringConverter.Instance}, ConverterParameter=Pause;Resume}" />
+            <NativeMenuItem Command="{Binding OpenConfiguration}" Header="Configuration..." />
+            <NativeMenuItemSeparator />
+            <NativeMenuItem Command="{Binding Exit}" Header="Exit" />
+        </NativeMenu>
+    </TrayIcon.Menu>
+</TrayIcon>
