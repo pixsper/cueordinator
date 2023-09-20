@@ -1,15 +1,19 @@
 ﻿using System.Reactive;
 using System.Threading;
 using System.Threading.Tasks;
-using Avalonia.Controls.ApplicationLifetimes;
+using Pixsper.Cueordinator.Services;
 using ReactiveUI;
 
 namespace Pixsper.Cueordinator.ViewModels;
 
 public class AppTrayIconViewModel : ReactiveObject
 {
-    public AppTrayIconViewModel()
+    private readonly SyncService _syncService;
+
+    public AppTrayIconViewModel(SyncService syncService)
     {
+        _syncService = syncService;
+
         SyncNow = ReactiveCommand.CreateFromTask(onSyncNowAsync);
         ToggleIsPaused = ReactiveCommand.Create(() =>
         {
@@ -27,6 +31,8 @@ public class AppTrayIconViewModel : ReactiveObject
         set => this.RaiseAndSetIfChanged(ref _isPaused, value);
     }
 
+    public string AppVersion => App.Version;
+
     public ReactiveCommand<Unit, Unit> SyncNow { get; }
 
     public ReactiveCommand<Unit, Unit> ToggleIsPaused { get; }
@@ -39,6 +45,6 @@ public class AppTrayIconViewModel : ReactiveObject
 
     private async Task onSyncNowAsync(CancellationToken cancellationToken)
     {
-        
+        await _syncService.RunSyncAsync(cancellationToken).ConfigureAwait(false);
     }
 }

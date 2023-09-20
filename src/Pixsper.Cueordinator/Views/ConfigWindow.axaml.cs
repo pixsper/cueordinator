@@ -2,9 +2,9 @@ using Avalonia.Controls;
 
 namespace Pixsper.Cueordinator.Views;
 
-public partial class MainWindow : Window
+public partial class ConfigWindow : Window
 {
-    public MainWindow()
+    public ConfigWindow()
     {
         InitializeComponent();
     }

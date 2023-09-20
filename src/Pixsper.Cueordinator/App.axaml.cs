@@ -1,5 +1,4 @@
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -12,25 +11,52 @@ using Pixsper.Cueordinator.Views;
 
 namespace Pixsper.Cueordinator;
 
-public partial class App : Application
+public partial class App : Application, IAsyncDisposable
 {
-    private readonly IServiceProvider _serviceProvider;
 
     public new static App? Current => (App?)Application.Current;
+
+    public static string Version
+    {
+        get
+        {
+#if DEBUG
+            return $"{GitVersionInformation.FullSemVer} DEBUG";
+#else
+            return GitVersionInformation.FullSemVer;
+#endif
+        }
+    }
+
+    private readonly ServiceProvider _serviceProvider;
+    private readonly SyncService _syncService;
+
+
 
     public App()
     {
         var serviceCollection = new ServiceCollection();
         serviceCollection.AddHttpClient();
+        serviceCollection.AddSingleton<SyncService>();
         serviceCollection.AddSingleton<DisguiseHttpClient>();
 
+        serviceCollection.AddTransient<AppTrayIconViewModel>();
+        serviceCollection.AddTransient<ConfigWindowViewModel>();
+
         _serviceProvider = serviceCollection.BuildServiceProvider();
+        _syncService = _serviceProvider.GetRequiredService<SyncService>();
     }
+
+    public async ValueTask DisposeAsync()
+    {
+        await _serviceProvider.DisposeAsync().ConfigureAwait(false);
+    }
+
 
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
-        DataContext = new AppTrayIconViewModel();
+        DataContext = _serviceProvider.GetRequiredService<AppTrayIconViewModel>();
     }
 
     public void OpenMainWindow()
@@ -39,7 +65,12 @@ public partial class App : Application
         {
             if (desktopLifetime.MainWindow?.IsEffectivelyVisible != true)
             {
-                desktopLifetime.MainWindow = new MainWindow();
+                var configWindow = new ConfigWindow
+                {
+                    DataContext = _serviceProvider.GetRequiredService<ConfigWindowViewModel>()
+                };
+
+                desktopLifetime.MainWindow = configWindow;
                 desktopLifetime.MainWindow.Show();
             }
             else
@@ -57,10 +88,5 @@ public partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
             desktopLifetime.Shutdown();
-    }
-
-    private void onTrayIconClicked(object? sender, EventArgs e)
-    {
-        throw new NotImplementedException();
     }
 }

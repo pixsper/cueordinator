@@ -4,14 +4,30 @@ using Projektanker.Icons.Avalonia.FontAwesome;
 using Projektanker.Icons.Avalonia;
 using System;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 
 namespace Pixsper.Cueordinator;
 
 class Program
 {
     [STAThread]
-    public static void Main(string[] args) => BuildAvaloniaApp()
-        .StartWithClassicDesktopLifetime(args, ShutdownMode.OnExplicitShutdown);
+    public static int Main(string[] args)
+    {
+        var builder = BuildAvaloniaApp();
+        var lifetime = new ClassicDesktopStyleApplicationLifetime()
+        {
+            Args = args,
+            ShutdownMode = ShutdownMode.OnExplicitShutdown
+        };
+        builder.SetupWithLifetime(lifetime);
+
+        var app = builder.Instance!;
+        int returnCode = lifetime.Start(args);
+
+        ((App)app).DisposeAsync().AsTask().Wait();
+
+        return returnCode;
+    }
 
     public static AppBuilder BuildAvaloniaApp()
     {

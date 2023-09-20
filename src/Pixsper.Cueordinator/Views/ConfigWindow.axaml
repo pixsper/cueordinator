@@ -1,0 +1,91 @@
+<Window
+    x:Class="Pixsper.Cueordinator.Views.ConfigWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:Pixsper.Cueordinator.ViewModels"
+    Title="Cueordinator"
+    Width="400"
+    Height="600"
+    x:DataType="vm:ConfigWindowViewModel"
+    Background="Transparent"
+    CanResize="False"
+    ExtendClientAreaToDecorationsHint="True"
+    Icon="/Resources/icon_tray_white.ico"
+    TransparencyLevelHint="AcrylicBlur"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+
+    <Design.DataContext>
+        <vm:ConfigWindowViewModel />
+    </Design.DataContext>
+
+    <Panel>
+        <ExperimentalAcrylicBorder IsHitTestVisible="False">
+            <ExperimentalAcrylicBorder.Material>
+                <ExperimentalAcrylicMaterial
+                    BackgroundSource="Digger"
+                    MaterialOpacity="0.65"
+                    TintColor="Black"
+                    TintOpacity="1" />
+            </ExperimentalAcrylicBorder.Material>
+        </ExperimentalAcrylicBorder>
+
+        <Grid RowDefinitions="Auto,*">
+            <StackPanel IsHitTestVisible="false" Orientation="Horizontal">
+                <Image
+                    Width="28"
+                    Height="28"
+                    Margin="4"
+                    Source="/Resources/icon_tray_white.png" />
+                <TextBlock
+                    Margin="4"
+                    VerticalAlignment="Center"
+                    Text="Cueordinator" />
+            </StackPanel>
+
+            <ScrollViewer Grid.Row="1">
+                <StackPanel Margin="8" Grid.IsSharedSizeScope="True">
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="A" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="4"
+                            VerticalAlignment="Center"
+                            Text="Source" />
+                        <ComboBox
+                            Grid.Column="1"
+                            Margin="4"
+                            HorizontalAlignment="Stretch" />
+                    </Grid>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="A" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="4"
+                            VerticalAlignment="Center"
+                            Text="Destinations" />
+                        <ComboBox
+                            Grid.Column="1"
+                            Margin="4"
+                            HorizontalAlignment="Stretch" />
+                    </Grid>
+
+
+
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+
+    </Panel>
+
+</Window>
