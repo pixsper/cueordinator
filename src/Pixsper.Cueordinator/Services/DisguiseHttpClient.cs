@@ -7,14 +7,9 @@ using Pixsper.Cueordinator.Models.Disguise;
 
 namespace Pixsper.Cueordinator.Services;
 
-internal class DisguiseHttpClient
+internal class DisguiseHttpClient(IHttpClientFactory clientFactory)
 {
-    private readonly IHttpClientFactory _clientFactory;
-
-    public DisguiseHttpClient(IHttpClientFactory clientFactory)
-    {
-        _clientFactory = clientFactory;
-    }
+    private readonly IHttpClientFactory _clientFactory = clientFactory;
 
     public async Task<DisguiseProjectsResponse?> GetProjectsAsync(Uri serverUri, CancellationToken cancellationToken = default)
     {

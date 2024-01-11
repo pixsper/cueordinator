@@ -17,7 +17,7 @@ public class LoopTask : IAsyncDisposable
 
     public async ValueTask DisposeAsync()
     {
-        _cancellationTokenSource.Cancel();
+        await _cancellationTokenSource.CancelAsync().ConfigureAwait(false);
         await _task.ConfigureAwait(false);
         ;           _cancellationTokenSource.Dispose();
     }
