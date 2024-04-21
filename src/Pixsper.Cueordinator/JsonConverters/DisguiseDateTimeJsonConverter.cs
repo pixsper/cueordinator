@@ -7,7 +7,7 @@ namespace Pixsper.Cueordinator.JsonConverters;
 
 internal class DisguiseDateTimeJsonConverter : JsonConverter<DateTime>
 {
-    public const string DisguiseDateFormat = "d MMM yyyy HH:mm:ss.fff";
+    private const string DisguiseDateFormat = "d MMM yyyy HH:mm:ss.fff";
 
     public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

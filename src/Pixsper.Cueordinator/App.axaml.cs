@@ -1,20 +1,24 @@
 using System;
 using System.Threading.Tasks;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using Pixsper.Cueordinator.Services;
+using Pixsper.Cueordinator.Services.Connections;
 using Pixsper.Cueordinator.ViewModels;
 using Pixsper.Cueordinator.Views;
 
 namespace Pixsper.Cueordinator;
 
-public partial class App : Application, IAsyncDisposable
+public class App : Application, IAsyncDisposable
 {
 
     public new static App? Current => (App?)Application.Current;
+
+    public static string ApplicationName { get; } = "Cueordinator";
 
     public static string Version
     {
@@ -29,22 +33,30 @@ public partial class App : Application, IAsyncDisposable
     }
 
     private readonly ServiceProvider _serviceProvider;
-    private readonly SyncService _syncService;
 
 
 
     public App()
     {
         var serviceCollection = new ServiceCollection();
-        serviceCollection.AddHttpClient();
-        serviceCollection.AddSingleton<SyncService>();
-        serviceCollection.AddSingleton<DisguiseHttpClient>();
 
-        serviceCollection.AddTransient<AppTrayIconViewModel>();
-        serviceCollection.AddTransient<ConfigWindowViewModel>();
+        if (!Design.IsDesignMode)
+        {
+            serviceCollection.AddHttpClient();
+            serviceCollection.AddSingleton<IConfigurationService, ConfigurationService>();
+            serviceCollection.AddSingleton<IConnectionsService, ConnectionsService>();
+            serviceCollection.AddSingleton<ISyncService, SyncService>();
+
+            serviceCollection.AddSingleton<DisguiseConnection>();
+
+            serviceCollection.AddHostedService<SchedulingService>();
+
+            serviceCollection.AddTransient<AppTrayIconViewModel>();
+            serviceCollection.AddTransient<ConfigurationWindowViewModel>();
+            serviceCollection.AddTransient<AboutWindowViewModel>();
+        }
 
         _serviceProvider = serviceCollection.BuildServiceProvider();
-        _syncService = _serviceProvider.GetRequiredService<SyncService>();
     }
 
     public async ValueTask DisposeAsync()
@@ -56,18 +68,25 @@ public partial class App : Application, IAsyncDisposable
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
-        DataContext = _serviceProvider.GetRequiredService<AppTrayIconViewModel>();
+        if (!Design.IsDesignMode)
+            DataContext = _serviceProvider.GetRequiredService<AppTrayIconViewModel>();
     }
 
     public void OpenMainWindow()
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
         {
+            if (desktopLifetime.MainWindow is AboutWindow || desktopLifetime.MainWindow?.IsEffectivelyVisible != true)
+            {
+                desktopLifetime.MainWindow?.Close();
+                desktopLifetime.MainWindow = null;
+            }
+
             if (desktopLifetime.MainWindow?.IsEffectivelyVisible != true)
             {
-                var configWindow = new ConfigWindow
+                var configWindow = new ConfigurationWindow
                 {
-                    DataContext = _serviceProvider.GetRequiredService<ConfigWindowViewModel>()
+                    DataContext = _serviceProvider.GetRequiredService<ConfigurationWindowViewModel>()
                 };
 
                 desktopLifetime.MainWindow = configWindow;
@@ -75,11 +94,39 @@ public partial class App : Application, IAsyncDisposable
             }
             else
             {
-                Dispatcher.UIThread.InvokeAsync(async () =>
+                activateMainWindow();
+            }
+        }
+    }
+
+    public void OpenAboutWindow()
+    {
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
+        {
+            if (desktopLifetime.MainWindow?.IsEffectivelyVisible != true)
+            {
+                desktopLifetime.MainWindow?.Close();
+                desktopLifetime.MainWindow = null;
+
+                var aboutWindow = new AboutWindow
                 {
-                    await Task.Delay(16);
-                    desktopLifetime.MainWindow?.Activate();
-                });
+                    DataContext = _serviceProvider.GetRequiredService<AboutWindowViewModel>()
+                };
+                desktopLifetime.MainWindow = aboutWindow;
+                desktopLifetime.MainWindow.Show();
+            }
+            else if (desktopLifetime.MainWindow is AboutWindow)
+            {
+                activateMainWindow();
+            }
+            else if (desktopLifetime.MainWindow is ConfigurationWindow)
+            {
+                var aboutWindow = new AboutWindow
+                {
+                    DataContext = _serviceProvider.GetRequiredService<AboutWindowViewModel>()
+                };
+
+                aboutWindow.ShowDialog(desktopLifetime.MainWindow);
             }
         }
     }
@@ -88,5 +135,22 @@ public partial class App : Application, IAsyncDisposable
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
             desktopLifetime.Shutdown();
+    }
+
+    private void activateMainWindow()
+    {
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
+        {
+            Dispatcher.UIThread.InvokeAsync(async () =>
+            {
+                await Task.Delay(16);
+                desktopLifetime.MainWindow?.Activate();
+            });
+        }
+    }
+
+    private void onOpenAboutWindowClicked(object? sender, EventArgs e)
+    {
+        OpenAboutWindow();
     }
 }

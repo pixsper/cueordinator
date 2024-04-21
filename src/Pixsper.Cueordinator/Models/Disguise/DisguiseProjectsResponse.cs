@@ -9,7 +9,7 @@ internal record DisguiseProjectsResponse
 {
     public DisguiseResponseStatus Status { get; init; } = new();
 
-    public IReadOnlyList<DisguiseHostProjectsList> Result { get; init; } = new List<DisguiseHostProjectsList>();
+    public IReadOnlyList<DisguiseHostProjectsList> Result { get; init; } = [];
 }
 
 internal record DisguiseHostProjectsList
@@ -18,7 +18,7 @@ internal record DisguiseHostProjectsList
 
     public string LastProject { get; init; } = string.Empty;
 
-    public IReadOnlyList<DisguiseProject> Projects { get; init; } = new List<DisguiseProject>();
+    public IReadOnlyList<DisguiseProject> Projects { get; init; } = [];
 }
 
 

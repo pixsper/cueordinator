@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pixsper.Cueordinator", "src\Pixsper.Cueordinator\Pixsper.Cueordinator.csproj", "{8832A33C-08EE-49DA-932C-3CD011631A8C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pixsper.Cueordinator.Tests", "tests\Pixsper.Cueordinator.Tests\Pixsper.Cueordinator.Tests.csproj", "{E4251A32-84D9-4A54-922D-FE65516AB2F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{8832A33C-08EE-49DA-932C-3CD011631A8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8832A33C-08EE-49DA-932C-3CD011631A8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8832A33C-08EE-49DA-932C-3CD011631A8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4251A32-84D9-4A54-922D-FE65516AB2F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4251A32-84D9-4A54-922D-FE65516AB2F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4251A32-84D9-4A54-922D-FE65516AB2F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4251A32-84D9-4A54-922D-FE65516AB2F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

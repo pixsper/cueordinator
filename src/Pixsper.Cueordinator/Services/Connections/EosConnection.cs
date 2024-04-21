@@ -2,14 +2,15 @@
 using System.Net;
 using System.Threading.Tasks;
 using OscCore;
+using Pixsper.Cueordinator.Services.Net;
 
-namespace Pixsper.Cueordinator.Services;
+namespace Pixsper.Cueordinator.Services.Connections;
 
-internal class EosOscClient : IAsyncDisposable
+internal class EosConnection : IAsyncDisposable
 {
     private readonly OscTcpClient _client;
 
-    public EosOscClient(IPEndPoint remoteEndpoint)
+    public EosConnection(IPEndPoint remoteEndpoint)
     {
         _client = new OscTcpClient(remoteEndpoint, new IPEndPoint(IPAddress.Any, 0));
     }
@@ -34,7 +35,7 @@ internal class EosOscClient : IAsyncDisposable
         await _client.SendAsync(new OscMessage("/eos/newcmd", $"Chan {disguiseChannel} Cue_2 {cueYy:D3}#"));
         await _client.SendAsync(new OscMessage("/eos/newcmd", $"Chan {disguiseChannel} Cue_3 {cueZz:D3}#"));
 
-        decimal cueNumber = cueXx * 100m + cueYy + cueZz * 0.01m;
+        decimal cueNumber = (cueXx * 100m) + cueYy + (cueZz * 0.01m);
         await _client.SendAsync(new OscMessage("/eos/newcmd", $"Chan {disguiseChannel} Record Cue {eosCueList} / {cueNumber:F2} Time 0 Label {label}#"));
     }
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="src/Pixsper.Cueordinator/App.axaml" value="src/Pixsper.Cueordinator/Pixsper.Cueordinator.csproj" />
+        <entry key="src/Pixsper.Cueordinator/Views/AboutWindow.axaml" value="src/Pixsper.Cueordinator/Pixsper.Cueordinator.csproj" />
+        <entry key="src/Pixsper.Cueordinator/Views/AppTrayIcon.axaml" value="src/Pixsper.Cueordinator/Pixsper.Cueordinator.csproj" />
+        <entry key="src/Pixsper.Cueordinator/Views/ConfigWindow.axaml" value="src/Pixsper.Cueordinator/Pixsper.Cueordinator.csproj" />
+        <entry key="src/Pixsper.Cueordinator/Views/ConfigurationWindow.axaml" value="src/Pixsper.Cueordinator/Pixsper.Cueordinator.csproj" />
+      </map>
+    </option>
+  </component>
+</project>

@@ -7,19 +7,19 @@
     xmlns:vc="clr-namespace:Pixsper.Cueordinator.ValueConverters"
     xmlns:vm="clr-namespace:Pixsper.Cueordinator.ViewModels"
     x:DataType="vm:AppTrayIconViewModel"
-    Icon="/Resources/icon_tray_white.ico"
+    MacOSProperties.IsTemplateIcon="true"
     ToolTipText="Cueordinator"
     mc:Ignorable="d">
     <TrayIcon.Menu>
         <NativeMenu>
-            <NativeMenuItem Header="{Binding AppVersion, StringFormat=Cueordinator {0}}" IsEnabled="False" />
-            <NativeMenuItemSeparator />
             <NativeMenuItem Command="{Binding SyncNow}" Header="Sync Now" />
             <NativeMenuItemSeparator />
             <NativeMenuItem Command="{Binding ToggleIsPaused}" Header="{Binding IsPaused, Converter={x:Static vc:BoolToStringConverter.Instance}, ConverterParameter=Pause;Resume}" />
             <NativeMenuItem Command="{Binding OpenConfiguration}" Header="Configuration..." />
             <NativeMenuItemSeparator />
-            <NativeMenuItem Command="{Binding Exit}" Header="Exit" />
+            <NativeMenuItem Command="{Binding OpenAbout}" Header="About..." />
+            <NativeMenuItemSeparator />
+            <NativeMenuItem Command="{Binding Exit}" Header="Quit Cueordinator" />
         </NativeMenu>
     </TrayIcon.Menu>
 </TrayIcon>

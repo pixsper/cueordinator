@@ -1,0 +1,86 @@
+﻿<Window
+    x:Class="Pixsper.Cueordinator.Views.AboutWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:Pixsper.Cueordinator.ViewModels"
+    Title="Cueordinator"
+    Width="400"
+    Height="550"
+    x:DataType="vm:AboutWindowViewModel"
+    CanResize="False"
+    ExtendClientAreaToDecorationsHint="True"
+    Icon="/Resources/icon_tray_white.ico"
+    TransparencyLevelHint="AcrylicBlur"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <Panel>
+        <ExperimentalAcrylicBorder IsHitTestVisible="False">
+            <ExperimentalAcrylicBorder.Material>
+                <ExperimentalAcrylicMaterial
+                    BackgroundSource="Digger"
+                    MaterialOpacity="0.65"
+                    TintColor="Black"
+                    TintOpacity="1" />
+            </ExperimentalAcrylicBorder.Material>
+        </ExperimentalAcrylicBorder>
+
+        <Grid VerticalAlignment="Center" RowDefinitions="Auto,Auto,Auto">
+            <Image
+                Width="200"
+                Height="200"
+                Margin="8"
+                Source="/Resources/icon_tray_white.png" />
+            <StackPanel
+                Grid.Row="1"
+                Margin="8"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+                <TextBlock
+                    Margin="8"
+                    HorizontalAlignment="Center"
+                    FontSize="18"
+                    FontWeight="Bold"
+                    Text="Cueordinator" />
+                <TextBlock
+                    Margin="4"
+                    HorizontalAlignment="Center"
+                    Text="{Binding AppVersion}" />
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="2"
+                Margin="8"
+                HorizontalAlignment="Center">
+                <Image
+                    Width="128"
+                    Margin="12"
+                    HorizontalAlignment="Center"
+                    Source="/Resources/pixsper_logo.png" />
+
+                <TextBlock
+                    Margin="4"
+                    HorizontalAlignment="Center"
+                    Text="Copyright &#169; 2024 Pixsper Ltd." />
+
+                <Button
+                    HorizontalAlignment="Center"
+                    Command="{Binding OpenUrl}"
+                    CommandParameter="https://pixsper.com">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <ContentPresenter Content="{TemplateBinding Content}" />
+                        </ControlTemplate>
+                    </Button.Template>
+                    <TextBlock
+                        Margin="4"
+                        HorizontalAlignment="Center"
+                        IsHitTestVisible="True"
+                        Text="https://pixsper.com"
+                        TextDecorations="Underline" />
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Panel>
+</Window>

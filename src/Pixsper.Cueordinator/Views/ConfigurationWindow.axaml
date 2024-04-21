@@ -1,5 +1,5 @@
 <Window
-    x:Class="Pixsper.Cueordinator.Views.ConfigWindow"
+    x:Class="Pixsper.Cueordinator.Views.ConfigurationWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,7 +8,7 @@
     Title="Cueordinator"
     Width="400"
     Height="600"
-    x:DataType="vm:ConfigWindowViewModel"
+    x:DataType="vm:ConfigurationWindowViewModel"
     Background="Transparent"
     CanResize="False"
     ExtendClientAreaToDecorationsHint="True"
@@ -16,10 +16,6 @@
     TransparencyLevelHint="AcrylicBlur"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
-
-    <Design.DataContext>
-        <vm:ConfigWindowViewModel />
-    </Design.DataContext>
 
     <Panel>
         <ExperimentalAcrylicBorder IsHitTestVisible="False">
@@ -38,6 +34,7 @@
                     Width="28"
                     Height="28"
                     Margin="4"
+
                     Source="/Resources/icon_tray_white.png" />
                 <TextBlock
                     Margin="4"

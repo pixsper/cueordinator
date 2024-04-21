@@ -8,9 +8,9 @@ namespace Pixsper.Cueordinator.ViewModels;
 
 public class AppTrayIconViewModel : ReactiveObject
 {
-    private readonly SyncService _syncService;
+    private readonly ISyncService _syncService;
 
-    public AppTrayIconViewModel(SyncService syncService)
+    public AppTrayIconViewModel(ISyncService syncService)
     {
         _syncService = syncService;
 
@@ -21,6 +21,7 @@ public class AppTrayIconViewModel : ReactiveObject
         });
 
         OpenConfiguration = ReactiveCommand.Create(() => App.Current?.OpenMainWindow());
+        OpenAbout = ReactiveCommand.Create(() => App.Current?.OpenAboutWindow());
         Exit = ReactiveCommand.Create(() => App.Current?.Exit());
     }
 
@@ -30,14 +31,15 @@ public class AppTrayIconViewModel : ReactiveObject
         get => _isPaused;
         set => this.RaiseAndSetIfChanged(ref _isPaused, value);
     }
-
-    public string AppVersion => App.Version;
-
+    
     public ReactiveCommand<Unit, Unit> SyncNow { get; }
 
     public ReactiveCommand<Unit, Unit> ToggleIsPaused { get; }
 
     public ReactiveCommand<Unit, Unit> OpenConfiguration { get; }
+
+
+    public ReactiveCommand<Unit, Unit> OpenAbout { get; }
 
     public ReactiveCommand<Unit, Unit> Exit { get; }
 
@@ -45,6 +47,6 @@ public class AppTrayIconViewModel : ReactiveObject
 
     private async Task onSyncNowAsync(CancellationToken cancellationToken)
     {
-        await _syncService.RunSyncAsync(cancellationToken).ConfigureAwait(false);
+        //await _syncService.RunSyncAsync(cancellationToken).ConfigureAwait(false);
     }
 }

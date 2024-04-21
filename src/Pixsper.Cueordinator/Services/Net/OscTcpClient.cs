@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Nito.AsyncEx;
 using OscCore;
 
-namespace Pixsper.Cueordinator.Services;
+namespace Pixsper.Cueordinator.Services.Net;
 
 internal class OscTcpClient : IAsyncDisposable
 {
@@ -31,8 +31,6 @@ internal class OscTcpClient : IAsyncDisposable
     {
         _remoteEndpoint = remoteEndPoint;
         _tcpClient = new TcpClient(localEndpoint);
-
-
         _loopTask = new LoopTask(loopImpl);
     }
 
@@ -42,7 +40,7 @@ internal class OscTcpClient : IAsyncDisposable
         await _loopTask.DisposeAsync().ConfigureAwait(false);
     }
 
-    public async Task<bool> SendAsync(OscPacket packet)
+    public async Task<bool> SendAsync(OscPacket packet, CancellationToken cancellationToken = default)
     {
         var stream = _stream;
 
@@ -78,7 +76,7 @@ internal class OscTcpClient : IAsyncDisposable
 
         _outputBuffer[p++] = SlipEnd;
 
-        await stream.WriteAsync(_outputBuffer, 0, p).ConfigureAwait(false);
+        await stream.WriteAsync(_outputBuffer, 0, p, cancellationToken).ConfigureAwait(false);
         return true;
     }
 

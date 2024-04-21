@@ -3,12 +3,14 @@ using Avalonia.ReactiveUI;
 using Projektanker.Icons.Avalonia.FontAwesome;
 using Projektanker.Icons.Avalonia;
 using System;
+using System.Diagnostics;
+using System.Threading;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 
 namespace Pixsper.Cueordinator;
 
-class Program
+public class Program
 {
     [STAThread]
     public static int Main(string[] args)
@@ -38,6 +40,11 @@ class Program
             .UsePlatformDetect()
             .WithInterFont()
             .LogToTrace()
-            .UseReactiveUI();
+            .UseReactiveUI()
+            .With(new MacOSPlatformOptions
+            {
+                DisableSetProcessName = true,
+                ShowInDock = false
+            });
     }
 }

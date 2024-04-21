@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Pixsper.Cueordinator.Services;
 
-public class LoopTask : IAsyncDisposable
+internal class LoopTask : IAsyncDisposable
 {
     private readonly CancellationTokenSource _cancellationTokenSource = new();
     private readonly Task _task;
