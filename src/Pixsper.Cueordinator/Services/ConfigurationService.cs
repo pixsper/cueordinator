@@ -119,7 +119,7 @@ internal class ConfigurationService : IConfigurationService, IAsyncDisposable
         try
         {
             var configurationFileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData,
-                    Environment.SpecialFolderOption.Create), App.ApplicationName, ConfigurationFileName);
+                    Environment.SpecialFolderOption.Create), App.Current?.Name ?? throw new InvalidOperationException(), ConfigurationFileName);
 
             if (!File.Exists(configurationFileName))
             {
@@ -159,7 +159,7 @@ internal class ConfigurationService : IConfigurationService, IAsyncDisposable
         using var _ = await _asyncLock.LockAsync(cancellationToken);
 
         var configurationDirectoryName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            App.ApplicationName);
+            App.Current?.Name ?? throw new InvalidOperationException());
 
         if (!Directory.Exists(configurationDirectoryName))
         {

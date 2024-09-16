@@ -3,8 +3,6 @@ using Avalonia.ReactiveUI;
 using Projektanker.Icons.Avalonia.FontAwesome;
 using Projektanker.Icons.Avalonia;
 using System;
-using System.Diagnostics;
-using System.Threading;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 

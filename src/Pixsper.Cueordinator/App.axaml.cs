@@ -15,10 +15,7 @@ namespace Pixsper.Cueordinator;
 
 public class App : Application, IAsyncDisposable
 {
-
-    public new static App? Current => (App?)Application.Current;
-
-    public static string ApplicationName { get; } = "Cueordinator";
+    public static new App? Current => (App?)Application.Current;
 
     public static string Version
     {
