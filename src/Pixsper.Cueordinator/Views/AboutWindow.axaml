@@ -64,22 +64,13 @@
                     HorizontalAlignment="Center"
                     Text="Copyright &#169; 2024 Pixsper Ltd." />
 
-                <Button
+                <HyperlinkButton
+                    Margin="4"
                     HorizontalAlignment="Center"
-                    Command="{Binding OpenUrl}"
-                    CommandParameter="https://pixsper.com">
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <ContentPresenter Content="{TemplateBinding Content}" />
-                        </ControlTemplate>
-                    </Button.Template>
-                    <TextBlock
-                        Margin="4"
-                        HorizontalAlignment="Center"
-                        IsHitTestVisible="True"
-                        Text="https://pixsper.com"
-                        TextDecorations="Underline" />
-                </Button>
+                    Content="{Binding $self.NavigateUri}"
+                    IsHitTestVisible="True"
+                    NavigateUri="http://pixsper.com" />
+
             </StackPanel>
         </Grid>
     </Panel>

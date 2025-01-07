@@ -1,5 +1,4 @@
-﻿using Avalonia.Input;
-using Avalonia.ReactiveUI;
+﻿using Avalonia.ReactiveUI;
 using Pixsper.Cueordinator.ViewModels;
 
 namespace Pixsper.Cueordinator.Views;
